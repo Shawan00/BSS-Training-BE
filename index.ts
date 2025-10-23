@@ -2,6 +2,8 @@ import express, { Express, Request, Response } from "express";
 import { AppDataSource } from "./config/connect.config";
 import bodyParser from "body-parser";
 import shopRoute from "./route/shop.route";
+import customizationRoute from "./route/customization.route";
+import translationRoute from "./route/translation.route";
 
 const app: Express = express();
 
@@ -16,6 +18,8 @@ AppDataSource.initialize().then(() => {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   app.use(shopRoute);
+  app.use(customizationRoute);
+  app.use(translationRoute);
 
   app.listen(3000, () => {
     console.log("Server is running on port 3000");

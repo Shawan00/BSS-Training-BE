@@ -7,10 +7,10 @@ export class Translation {
   id!: number;
 
   @ManyToOne(() => Shop)
-  @JoinColumn({ name: "shop_id" })
+  @JoinColumn({ name: "shopifyDomain" })
   shop!: Shop;
 
-  @Column({ type: "varchar", length: 10 })
+  @Column({ type: "varchar", length: 10, unique: true })
   locale!: string;
 
   @Column({ type: "json" })

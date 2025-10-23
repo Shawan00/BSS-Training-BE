@@ -1,11 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Shop {
-  @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Column({unique: true, type: "varchar", length: 50})
+  @PrimaryColumn({unique: true, type: "varchar", length: 100})
   shopifyDomain!: string;
 
   @Column({type: "varchar", length: 50})

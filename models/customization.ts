@@ -30,10 +30,10 @@ export enum Direction {
 @Entity()
 export class Customization {
   @PrimaryColumn()
-  shopId!: number;
+  shopifyDomain!: string;
 
   @OneToOne(() => Shop)
-  @JoinColumn({ name: "shopId" })
+  @JoinColumn({ name: "shopifyDomain" })
   shop!: Shop;
 
   @Column({ type: "varchar", nullable: true })

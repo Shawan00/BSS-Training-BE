@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../config/connect.config";
+import { Customization } from "../models/customization";
 import { Shop } from "../models/shop";
 
-const upsertCustomization = async (req: Request, res: Response) => {
+export const upsertCustomization = async (req: Request, res: Response) => {
   try {
-    const { shopifyDomain } = req.params;
     const {
       inputWidth,
       inputHeight,
@@ -12,22 +12,42 @@ const upsertCustomization = async (req: Request, res: Response) => {
       inputBorderRadius,
       inputBackgroundColor,
       buttonVariant,
+      borderWidth,
+      borderColor,
       buttonWidth,
       buttonHeight,
       buttonBorder,
-      buttonBorderRadius,
       buttonBackgroundColor,
       buttonTextColor,
       direction,
       css,
     } = req.body;
+    const shop: Shop = res.locals.shop;
 
-    const shop = await AppDataSource.getRepository(Shop).findOneBy({
-      shopifyDomain: shopifyDomain as string
+    await AppDataSource.getRepository(Customization).upsert({
+      shopifyDomain: shop.shopifyDomain,
+      inputWidth,
+      inputHeight,
+      inputBorder,
+      inputBorderRadius,
+      inputBackgroundColor,
+      buttonVariant,
+      borderWidth,
+      borderColor,
+      buttonWidth,
+      buttonHeight,
+      buttonBorder,
+      buttonBackgroundColor,
+      buttonTextColor,
+      direction,
+      css,
+    }, ['shopifyDomain'])
+
+    return res.status(200).json({
+      message: "Customization upsert successfully",
     })
-    if (!shop) return res.status(404).json({ message: "Shop not found" });
 
   } catch (error) {
-    return res.status(500).json({ message: "Internal server error", error: error })
+    return res.status(500).json({ message: "Failed to upsert customization", error: error })
   }
 }
