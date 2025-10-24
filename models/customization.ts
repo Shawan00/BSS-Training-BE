@@ -46,6 +46,9 @@ export class Customization {
   inputBorder!: InputBorderType;
 
   @Column({ type: "varchar", nullable: true })
+  inputBorderColor?: string;
+
+  @Column({ type: "varchar", nullable: true })
   inputBorderRadius?: string;
 
   @Column({ type: "varchar", nullable: true })
