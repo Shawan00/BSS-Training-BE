@@ -3,6 +3,28 @@ import { AppDataSource } from "../config/connect.config";
 import { Customization } from "../models/customization";
 import { Shop } from "../models/shop";
 
+export const getCustomization = async (req: Request, res: Response) => {
+  try {
+    const shop = res.locals.shop
+    const customization = await AppDataSource.getRepository(Customization).findOne({
+      where: {
+        shopifyDomain: shop.shopifyDomain,
+      },
+    })
+    
+    if (!customization) {
+      return res.status(404).json({ message: "Customization not found" })
+    }
+    return res.status(200).json({
+      message: "Customization fetched successfully",
+      data: customization,
+    })
+
+  } catch (error) {
+    return res.status(500).json({ message: "Failed to fetch customization", error: error })
+  }
+}
+
 export const upsertCustomization = async (req: Request, res: Response) => {
   try {
     const {

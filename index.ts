@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import shopRoute from "./route/shop.route";
 import customizationRoute from "./route/customization.route";
 import translationRoute from "./route/translation.route";
+import cors from "cors";
 
 const app: Express = express();
 
@@ -13,6 +14,14 @@ AppDataSource.initialize().then(() => {
   app.get("/", (req: Request, res: Response) => {
     res.send("Hello World");
   });
+
+  const corsOrigin: string | boolean = process.env.CORS_ORIGIN == "true" ? true : process.env.CORS_ORIGIN ?? true;
+  app.use(cors(
+    {
+      origin: corsOrigin,
+      credentials: true,
+    }
+  ));
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
